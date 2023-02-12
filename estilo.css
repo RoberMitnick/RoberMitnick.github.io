@@ -1,0 +1,44 @@
+#extendN {
+    display: none;
+
+}
+#funcMarkov {
+    display: none; 
+}
+
+#bodycontainer {
+    background-color: darkblue;
+    padding : 2%;
+
+}
+#EntroCalcuN {
+    display: none;
+}
+#EntroCalcuE {
+    display: none;
+}
+#fimn {
+    display: none;
+}
+#fimne {
+    display: none;
+}
+#checkExtendido {
+    display: block;
+}
+.title1 h1{
+    text-align: center;
+    text-decoration-color: aqua;
+}
+.varglobal {
+    background-color: azure;
+    padding:2%;
+    margin: 1%;
+    border-radius: 5px;
+    border: 1px solid black;    
+    margin-bottom: 1%;
+    margin-right: 1%;
+    margin-left: 1%;
+    margin-top: 1%; 
+    flex: auto;
+}
