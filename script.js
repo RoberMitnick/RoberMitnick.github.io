@@ -1,6 +1,7 @@
 
 var MatElements;
 var MatElementsMarkov;
+var MatElementsAlfa;
 function fuenteMemN(){
     document.getElementById("funcMemN").style.display="block";
     document.getElementById("funcMarkov").style.display="none";
@@ -342,12 +343,15 @@ function leerContend(contend){
     let alfab=contenidoT[0].split(':');
     let rbase=contenidoT[1].split(':');
     let morden=contenidoT[2].split(':');
+    let titleT=contenidoT[3].split(',');
+    MatElementsAlfa=titleT;
+    
     document.getElementById("alfabetoS").value=alfab[1];
     document.getElementById("baseR").value=rbase[1];
     document.getElementById("ordenMarkov").value=morden[1];
-    let salidaM=new Array(contenidoT.length-3);
-    for(let i=0;i<contenidoT.length-3;i++){
-            salidaM[i]=contenidoT[i+3]; 
+    let salidaM=new Array(contenidoT.length-4);
+    for(let i=0;i<contenidoT.length-4;i++){
+            salidaM[i]=contenidoT[i+4]; 
         
     }
     return salidaM;
@@ -449,7 +453,7 @@ function CEntropiaM(){
         document.getElementById("resultadoM").innerHTML=salida;
         console.log("salida: "+salida);
         if(activExtend){
-            
+
         }
     }else{
         document.getElementById("resultadoM").innerHTML="";
