@@ -1,6 +1,9 @@
-#extendN {
+#extendMarkov {
     display: none;
 
+}
+#inputArch {
+    display:none;
 }
 #funcMarkov {
     display: none; 
@@ -16,6 +19,12 @@
 }
 #EntroCalcuE {
     display: none;
+}
+#EntroCalcuMarkov {
+    display: none;
+}
+#mMarkov {
+    display:none;
 }
 #fimn {
     display: none;
