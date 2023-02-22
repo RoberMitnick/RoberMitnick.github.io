@@ -321,7 +321,12 @@ function GenerarMatriz(matriz){
     document.getElementById("fimMarkov").style.display="block";
     document.getElementById("buttonCalMarkov").disabled=false;  
     let MatElements1=matriz;
-    let StringTable="";
+    let StringTable="<tr class=\"table-primary\" >";
+    for(let i=0;i<MatElementsAlfa.length;i++){
+        StringTable+="<th class=\"table=primary \"><p>"+MatElementsAlfa[i]+"</p></th>";
+
+    }
+    StringTable+="</tr>";
     MatElementsMarkov=new Array(matriz.length);
     let tableT=document.getElementById("tableMarkov");
     for(let i=0;i<MatElements1.length;i++){
