@@ -9,19 +9,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body class="container" id="bodycontainer">
+    <script src="https://pagecdn.io/lib/mathjs/11.0.1/math.js" crossorigin="anonymous"  ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="script.js"></script>
+    
     <div class="title1">
         <h1 class="text-white">CALCULADORA DE ENTROPIA</h1>
     </div>
     <div class="content">
         <select class="form-select" size="2" aria-label="size 2 select example">
             <option value="1" onclick="fuenteMemN()"  selected>Fuente de informacion con memoria nula </option>
-            <option value="2" onclick="fuenteMarkov()" disabled>Fuente de Markov</option>
+            <option value="2" onclick="fuenteMarkov()" >Fuente de Markov</option>
         </select>
     </div>
+    
     <div class=" d-inline d-flex flex-row">
         <div class="varglobal">
+            <input type="file" id="inputArch">
             <h3>Datos</h3>
             <p>Alfabeto (suparados por comas a,b,c,d)</p>
             <label>S= </label>
@@ -32,36 +35,47 @@
             <label>r= </label>
             <input type="text" id="baseR">
             <p></p>
-            <div class="form-check" id="checkExtendido" >
-                <input class="form-check-input" type="checkbox" onclick="actExtend()" value="" id="flexCheckIndeterminate">
-                <label class="form-check-label" for="flexCheckIndeterminate">
-                    Fuente de informacion con memoria nula extendida
-                </label>
-            </div>
-            <p></p>
-            <div id="extendN">
-                <p>Extencion (por defecto n=0)</p>
-                <label>n= </label>
-                <input type="number" id="numExtendido">
+            <div id="mMarkov">
+                <p>Orden de la fuente </p>
+                <form> 
+                    <label>m= </label>
+                    <input type="number" id="ordenMarkov">
+                    
+                </form>
                 <p></p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" onclick="actExtend()" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Activar extencion
+                    </label>
+                </div>
+                <p></p>
+                <div id="extendMarkov">
+                    <label >n-esima extencion</label>
+                    <input type="text" id="IextendM">
+                    <p></p>
+                </div>
             </div>
 
             <p></p>
             <div id="EntroCalcuN">
-                <p><b>Fuente original </b></p>
+                <p><b>Fuente de infomacion de memoria nula </b></p>
                 <label>H<sub>r</sub>(s<sub>i</sub>)= &Sigma;<sup>q</sup><sub>i=1</sub>P<sub>i</sub>*I(s<sub>i</sub>)= &Sigma;<sup>q</sup><sub>i=1</sub>P<sub>i</sub>*log(1/P<sub>i</sub>)</label>
                 <p></p>
                 <label>H<sub>r</sub>(s<sub>i</sub>)=</label>
                 <label id="resultado1"></label>
             </div>
             <p></p>
-            <div id="EntroCalcuE">
-                <p><b>Fuente extendida </b></p>
-                <label>H<sub>r</sub>(z<sub>j</sub>)= &Sigma;<sup>q<sup>r</sup></sup><sub>j=1</sub>P<sub>j</sub>*I(z<sub>j</sub>)= &Sigma;<sup>q<sup>r</sup></sup><sub>j=1</sub>P<sub>j</sub>*log(1/P<sub>j</sub>)</label>
+            <div id="EntroCalcuMarkov">
+                <p><b>Fuente Markov </b></p>
+                <label>H<sub>r</sub>(M)= &Sigma;<sup>q <sup>m</sup></sup><sub>i=1</sub>w<sub>i</sub>*H<sub>r</sub>(S/s<sub>i1</sub> s<sub>i2</sub> s<sub>i3</sub> ....)</label>
                 <p></p>
-                <label>H<sub>r</sub>(z<sub>j</sub>)=</label>
-                <label id="resultadoE"></label>
+                <label>H<sub>r</sub>(M)=</label>
+                <label id="resultadoM"></label>
             </div>
+            <p></p>
+
+            
         </div>
 
         <div class="varglobal" id="funcMemN">
@@ -82,10 +96,7 @@
                 <p><b>Fuente de informacion de memoria nula</b></p>
                 <table class="table table-primary" id="tableT"> </table>
             </div>
-            <div id="fimne">
-                <p><b>Fuente de infomacion de memoria nula extendida</b></p>
-                <table class="table table-primary" id="tableTExtendida"> </table>
-            </div>
+            
             <p></p>
             <div >
                 <p id="salidaError"></p>
@@ -93,23 +104,25 @@
         </div>
 
         <div  class="varglobal" id="funcMarkov">
-            <div>
-                <form> 
-                    <p>m= </p>
-                    <input type="number" id="ordenMarkov">
-                    
-                </form>
-            </div>
+            
             <div>
                 <p></p>
-                <button type="button" class="btn btn-outline-primary" onclick="GenerarMatriz()">Crear</button>
-                <button type="button" class="btn btn-outline-primary" onclick="CEntropiaM()">Calcular</button>
+                <button type="button" id="buttonCalMarkov" class="btn btn-outline-primary" onclick="CEntropiaM()" disabled>Calcular</button>
+            </div>
+            <div id="fimMarkov">
+                <p><b>Fuente de Markov</b></p>
+                <table class="table table-primary" id="tableMarkov"> </table>
+                <div id="idConverEntro"></div>
             </div>
             
+            <p></p>
+            <div >
+                <p id="salidaError"></p>
+            </div>
         </div>
     </div>>
     
-    
+    <script type="text/javascript" src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
