@@ -104,7 +104,28 @@
         </div>
 
         <div  class="varglobal" id="funcMarkov">
-            
+            <p>
+                FORMATO DEL ARCHIVO .CVS
+            </p>
+            <p>
+                <li>En el archivo la primera linea es el alfabeto separado por comas</li>
+                <li>segunda linea es la base r</li>
+                <li>Tercera linea es orden de la fuente de Markov</li>
+                <li>Cuarta lineea son los estados de la fuente de Markov</li>
+                <li>Despues de la cuarta linea sigue toda la tabla de transiciones</li>
+            </p>
+            <p>
+                EJEMPLO:<br>
+                alfabeto:a,b <br>
+                r:2<br>
+                m:2<br>
+                aa,ab,bb,ba <br>
+                0.8,0,0.5,0<br>
+                0.2,0,0.5,0<br>
+                0,0.5,0,0.2<br>
+                0,0.5,0,0.8<br>
+            </p>
+
             <div>
                 <p></p>
                 <button type="button" id="buttonCalMarkov" class="btn btn-outline-primary" onclick="CEntropiaM()" disabled>Calcular</button>
