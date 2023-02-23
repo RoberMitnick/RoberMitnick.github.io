@@ -142,43 +142,41 @@ function corregirDecimalSum(vectorSs){//verificar si el vectr suma 1
     }
     return salidaT;
 }
-/*
-function corregirDec(){
-//function corregirDecimalSum(vectorS){
-    let numk=vectorS.length;
-    let vectotro=new Array(numk);
-    let menora0=false;
-    for(let i=0;i<numk;i++){
-        vectotro[i]=vectorS[i];
-    }
-    let sumatt=0;
-    //verificamos si el vectotro tiene numeros mayores a 1
-    let numExp=0;//numero de veces que multiplicamos con 10
-    for(let i=0;i<numk;i++){
-        let numAct=(vectotro[i].toString()).length;
-        console.log("numAct: "+numAct);
-        if(vectotro[i]<1){
-            Epunto=true;
+function combinaciones(matC,n){
+        let numf=matC.length;
+        let numT=Math.pow(numf,n);//numero de  de cada elemento
+        let Arraycont=new Array(n);
+        for(let i=0;i<n;i++){
+            Arraycont[i]=Math.pow(numf,i);//guarda la repeticion de cada elemento en para su combinacion (4,2,1)=>{000,001,010,011,100,101,110,111}
         }
-        if(numAct>numExp){
-            numExp=numAct;
+        for(let i = 0;i<numT;i++){
+            console.log(Arraycont[i]);
         }
-    }
-    console.log("numExp: "+numExp);
-    for(let i=0;i<numk;i++){
-        vectotro[i]=BigInt(vectotro[i]*Math.pow(10,numExp));
-    }
-    for(let i=0;i<numk;i++){
-        sumatt=BigInt(sumatt)+vectotro[i];
-        if(menora0){
-            break;
+        let matCom=new Array(numT);//matriz de la combinaciones
+        let estadoAct=new Array(n);///vector  del estado actual
+        for(let i = 0;i<n;i++){
+            estadoAct[i]=0;
         }
-    }
-    console.log("sumatt: "+sumatt);
-    let salidaSumatt=(sumatt/BigInt(Math.pow(10,numExp))).toString();
-    console.log("salidaSumatt: "+salidaSumatt);
-    return [salidaSumatt]
-}*/
+        for(let i = 0;i<numT;i++){
+            matCom[i]=estadoAct.slice(0);
+            console.log("estadoAct antes: "+ estadoAct);
+            let CalP=1;
+            for(let e=0;e<n;e++){
+                //CalP=CalP*vecP[estadoAct[e]];
+                Arraycont[e]=Arraycont[e]-1; ///bajamos el numero de repeticiones de cada elemento
+                if(Arraycont[e]==0){
+                    Arraycont[e]=Math.pow(numf,e);
+                    estadoAct[e]=estadoAct[e]+1;///pasamos al siguiente elemento de nuestro alfabeto al estado actual
+                    if(estadoAct[e]==numf){
+                        estadoAct[e]=0;
+                    }
+                }
+                //console.log("estadoAct actual ${e}: "+ estadoAct);
+            }
+        }
+        console.log("matCom: "+matCom);
+        return matCom;
+}
 
 function GenerarTable(){
     document.getElementById("resultado1").innerHTML="";
@@ -235,63 +233,7 @@ function CEntropia(){
         document.getElementById("EntroCalcuN").style.display="block";
         document.getElementById("resultado1").innerHTML="";
         document.getElementById("resultado1").innerHTML=salida.toFixed(3);
-        /*if(activExtend){
-            document.getElementById("EntroCalcuE").style.display="block";
-            document.getElementById("fimne").style.display="block";
-            let numExtend=document.getElementById("numExtendido").value;
-            let numT=Math.pow(numf,numExtend);//numero de  de cada elemento
-            let Arraycont=new Array(numExtend);
-            for(let i=0;i<numExtend;i++){
-                Arraycont[i]=Math.pow(numf,i);//guarda la repeticion de cada elemento en para su combinacion (4,2,1)=>{000,001,010,011,100,101,110,111}
-            }
-            for(let i = 0;i<numT;i++){
-                console.log(Arraycont[i]);
-            }
-            let matCom=new Array(numT);//matriz de la combinaciones
-            let vectSalida=new Array(numT); //vector del resultado de las combinaciones
-            let estadoAct=new Array(numExtend);///vector  del estado actual
-            for(let i = 0;i<numExtend;i++){
-                estadoAct[i]=0;
-            }
-            for(let i = 0;i<numT;i++){
-                matCom[i]=estadoAct;
-                console.log("estadoAct antes: "+ estadoAct);
-                let CalP=1;
-                for(let e=0;e<numExtend;e++){
-                    CalP=CalP*vecP[estadoAct[e]];
-                    Arraycont[e]=Arraycont[e]-1; ///bajamos el numero de repeticiones de cada elemento
-                    if(Arraycont[e]==0){
-                        Arraycont[e]=Math.pow(numf,e);
-                        estadoAct[e]=estadoAct[e]+1;///pasamos al siguiente elemento de nuestro alfabeto al estado actual
-                        if(estadoAct[e]==numf){
-                            estadoAct[e]=0;
-                        }
-                    }
-                    //console.log("estadoAct actual ${e}: "+ estadoAct);
-                }
-                
-                vectSalida[i]=CalP.toFixed(3);
-            }
-            salida=CalcularEntro(vectSalida,calR);
-            document.getElementById("resultadoE").innerHTML="";
-            document.getElementById("resultadoE").innerHTML=salida.toFixed(3);
-            crearTable(vectSalida);
-            /*
-            console.log("Matriz de combinaciones");  
-            for(let i=0;i<numT;i++){
-                console.log(matCom[i]);
-            }
-            console.log("Ultima combinacion");
-            for(let i=0;i<numExtend;i++){
-                console.log(estadoAct[i]);
-            }
-            console.log("Vector de probabilidades");
-            for(let i=0;i<numT;i++){
-                console.log(vectSalida[i]);
-            }
-            console.log("Entropia: "+salida);
-            
-        }*/
+       
         
     }else{
         let salidaError="";
@@ -305,8 +247,8 @@ function CEntropia(){
             //console.log("salida Error: "+salidaError);
             document.getElementById("resultado1").innerHTML="";
             document.getElementById("EntroCalcuN").style.display="none";
-            document.getElementById("resultadoE").innerHTML="";
-            document.getElementById("EntroCalcuE").style.display="none";
+            //document.getElementById("resultadoE").innerHTML="";
+            //document.getElementById("EntroCalcuE").style.display="none";
             document.getElementById("tableTExtendidaM").innerHTML="";
             document.getElementById("fimne").style.display="none";
             document.getElementById("salidaError").innerHTML=salidaError;
@@ -336,6 +278,25 @@ function GenerarMatriz(matriz){
         
         for(let j=0;j<col.length;j++){
             fila+="<td class=\"table-primary\" ><p id=\"s"+ i+""+j+"\" >"+col[j]+"</p></td>";
+        }
+        fila+="</tr>";
+        StringTable+=fila;
+    }
+    tableT.innerHTML=StringTable;
+}
+function GenerarMatrizE(matriz){
+    document.getElementById("fime").style.display="block"; 
+    let MatElements1=matriz;
+    let StringTable="<tr class=\"table-primary\" >";
+    for(let i=0;i<MatElementsAlfa.length;i++){
+        StringTable+="<th class=\"table=primary \"><p>"+MatElementsAlfa[i]+"</p></th>";
+    }
+    StringTable+="</tr>";
+    let tableT=document.getElementById("tablTeExtendidaM");
+    for(let i=0;i<MatElements1.length;i++){
+        let fila="<tr class=\"table-primary\" >";
+        for(let j=0;j<MatElements1.length;j++){
+            fila+="<td class=\"table-primary\" ><p id=\"e"+ i+""+j+"\" >"+MatElements1[i][j]+"</p></td>";
         }
         fila+="</tr>";
         StringTable+=fila;
@@ -415,7 +376,7 @@ function CEntropiaM(){
     let vecFila=new Array(MatElementsMarkov[0].length);
     let verifipos=false;
     for(let i=0;i<MatElementsMarkov[0].length;i++){
-        //TODO: separar vectores columnas para verificar si suman 1
+        // separar vectores columnas para verificar si suman 1
         for(let j=0;j<MatElementsMarkov.length;j++){
             if(MatElementsMarkov[j][i]=="1" || MatElementsMarkov[j][i]=="0"){
                 vecFila[j]=MatElementsMarkov[j][i]+".0";
@@ -458,15 +419,29 @@ function CEntropiaM(){
         document.getElementById("resultadoM").innerHTML=salida;
         console.log("salida: "+salida);
         if(activExtend){
-
+            let numExt=parseInt(document.getElementById("IextendM").value); /// extencion n
+            let vara=new Array(MatElementsMarkov.length);
+            for(let i=0;i<MatElementsMarkov.length;i++){
+                vara[i]=MatElementsMarkov[i].slice(0);
+            }
+            for(let i=1;i<numExt;i++){
+                vara=math.multiply(vara,MatElementsMarkov);
+            }
+            console.log(vara);
+            for(let i=0;i<vara.length;i++){
+                for(let j=0;j<vara.length;j++){
+                    vara[i][j]=parseFloat(vara[i][j]).toFixed(3);
+                }
+            }
+            GenerarMatrizE(vara);
         }
     }else{
         document.getElementById("resultadoM").innerHTML="";
             document.getElementById("EntroCalcuMarkov").style.display="none";
-            document.getElementById("resultadoEM").innerHTML="";
-            document.getElementById("EntroCalcuME").style.display="none";
+            //document.getElementById("resultadoEM").innerHTML="";
+            //document.getElementById("EntroCalcuME").style.display="none";
             document.getElementById("tablTeExtendidaM").innerHTML="";
-            document.getElementById("fimne").style.display="none";
+            document.getElementById("fime").style.display="none";
             document.getElementById("salidaError").innerHTML=salidaError;
     }
     
