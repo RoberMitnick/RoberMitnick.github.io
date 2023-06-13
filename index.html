@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULAR ENTROPIA</title>
+    <link rel="stylesheet" href="estilo.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body class="container" id="bodycontainer">
+    <script src="https://pagecdn.io/lib/mathjs/11.0.1/math.js" crossorigin="anonymous"  ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    
+    <div class="title1">
+        <h1 class="text-white">CALCULADORA DE ENTROPIA</h1>
+    </div>
+    <div class="content">
+        <select class="form-select" size="5" aria-label="size 2 select example">
+            <option value="1" onclick="fuenteMemN()"  selected>Fuente de informacion con memoria nula </option>
+            <option value="2" onclick="fuenteMarkov()">Fuente de Markov</option>
+            <option value="3" onclick="FactoriPoly()" >Factorizacion de polinomios</option>
+            <option value="4" onclick="MCDPolyGR2()" >Maximo comun de divisor de 2 polinomios</option>
+            <option value="5" onclick="CiclicoPolyGenerador()" >Obtner codigo ciclico y polinomio generador</option>
+        </select>
+    </div>
+    
+    <div class=" d-inline d-flex flex-row">
+        <div class="varglobal">
+            <input type="file" id="inputArch">
+            <div id="funNula">
+                <h3>Datos</h3>
+                <p>Alfabeto (suparados por comas a,b,c,d)</p>
+                <label>S= </label>
+                <input type="text" id="alfabetoS">
+                <p></p>
+                <p>Unidades de cantidad de informacion</p> 
+                <p> (e=numero de euler)</p>
+                <label>r= </label>
+                <input type="text" id="baseR">
+            </div>
+            <p></p>
+
+            <div id="mMarkov">
+                <p>Orden de la fuente </p>
+                <form> 
+                    <label>m= </label>
+                    <input type="number" id="ordenMarkov">
+                </form>
+                <p></p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" onclick="actExtend()" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Activar extencion
+                    </label>
+                </div>
+                <p></p>
+                <div id="extendMarkov">
+                    <label >n-esima extencion</label>
+                    <input type="text" id="IextendM">
+                    <p></p>
+                </div>
+            </div>
+
+            <p></p>
+
+
+            <div id="EntroCalcuN">
+                <p><b>Fuente de infomacion de memoria nula </b></p>
+                <label>H<sub>r</sub>(s<sub>i</sub>)= &Sigma;<sup>q</sup><sub>i=1</sub>P<sub>i</sub>*I(s<sub>i</sub>)= &Sigma;<sup>q</sup><sub>i=1</sub>P<sub>i</sub>*log(1/P<sub>i</sub>)</label>
+                <p></p>
+                <label>H<sub>r</sub>(s<sub>i</sub>)=</label>
+                <label id="resultado1"></label>
+            </div>
+            <p></p>
+
+            <div id="EntroCalcuMarkov">
+                <p><b>Fuente Markov </b></p>
+                <label>H<sub>r</sub>(M)= &Sigma;<sup>q <sup>m</sup></sup><sub>i=1</sub>w<sub>i</sub>*H<sub>r</sub>(S/s<sub>i1</sub> s<sub>i2</sub> s<sub>i3</sub> ....)</label>
+                <p></p>
+                <label>H<sub>r</sub>(M)=</label>
+                <label id="resultadoM"></label>
+            </div>
+            <p></p>
+
+            <div id="FactPolynomioGF2">
+                <p><b>Factorizar polinomios en GF(2) [solo multiplos de (x^n + x) ]</b></p>
+                <label>P= </label>
+                <input type="text" id="inputPoly">
+                <p></p>
+                <label id="representacionPoly"></label>
+            </div>
+            <p></p>
+
+            <div id="MCDPolyGF2">
+                <p><b>Maximo comun divisor entre 2 polinomio en GF(2)</b></p>
+                <label>P1= </label>
+                <input type="text" id="inputPmcd1">
+                <p></p>
+                <label>P2= </label>
+                <input type="text" id="inputPmcd2">
+                <p></p>
+                <label id="reprePoly1"></label>
+                <p></p>
+                <label id="reprePoly2"></label>
+            </div>
+            <p></p>
+
+            <div id="CiclicoCodeG">
+                <p><b>Hallar el codigo ciclico y el polinomio generador </b></p>
+                <label>Pc= </label>
+                <input type="text" id="inputPolyC">
+                <p></p>
+                <label id="reprePolyC"></label>
+            </div>
+
+
+
+            <div >
+
+            </div>
+            
+        </div>
+
+        <div class="varglobal" id="funcMemN">
+            <li>
+                Crear una tabla para llenar las probabilidades de cada elemento
+            </li>
+            <li>
+                Puede crear una fuente extendida de orden n apartir de al fuente original 
+            </li>
+            <li>
+                Luego de llenar calcular la entropia
+            </li>
+            <p></p>
+            <button type="button" class="btn btn-outline-primary" onclick="GenerarTable()">Crear</button>
+            
+            <button type="button" id="buttonCalMN" class="btn btn-outline-primary" onclick="CEntropia()" disabled>Calcular</button>
+            <div id="fimn">
+                <p><b>Fuente de informacion de memoria nula</b></p>
+                <table class="table table-primary" id="tableT"> </table>
+            </div>
+            
+            <p></p>
+            <div >
+                <p id="salidaError"></p>
+            </div>
+        </div>
+
+
+        <div  class="varglobal" id="funcMarkov">
+            <p>
+                FORMATO DEL ARCHIVO .CVS
+            </p>
+            <p>
+                <li>En el archivo la primera linea es el alfabeto separado por comas</li>
+                <li>segunda linea es la base r</li>
+                <li>Tercera linea es orden de la fuente de Markov</li>
+                <li>Cuarta lineea son los estados de la fuente de Markov</li>
+                <li>Despues de la cuarta linea sigue toda la tabla de transiciones</li>
+            </p>
+            <p>
+                EJEMPLO:<br>
+                alfabeto:a,b <br>
+                r:2<br>
+                m:2<br>
+                aa,ab,bb,ba <br>
+                0.8,0,0.5,0<br>
+                0.2,0,0.5,0<br>
+                0,0.5,0,0.2<br>
+                0,0.5,0,0.8<br>
+            </p>
+
+            <div>
+                <p></p>
+                <button type="button" id="buttonCalMarkov" class="btn btn-outline-primary" onclick="CEntropiaM()" disabled>Calcular</button>
+            </div>
+            <div id="fimMarkov">
+                <p><b>Fuente de Markov</b></p>
+                <table class="table table-primary" id="tableMarkov"> </table>
+            </div>
+            <div id="fime">
+                <p><b>Fuente de Markov extendida</b></p>
+                <table class="table table-primary" id="tablTeExtendidaM"> </table>
+            </div>
+            
+            <p></p>
+            <div>
+                <p id="salidaError"></p>
+            </div>
+        </div>
+
+
+        <div class="varglobal" id="ResulFactPoly">
+            <p>
+                <li>El polinomio a ingresar tiene que estar en el siguiente formato </li>
+                <li>Solo se pondran el grado de cada termino que tenga coeficiente 1</li>
+
+                <li>x<sub>3</sub> + x + 1    =>   0,1,3</li>
+                <li>x<sub>8</sub> + +x<sub>7</sub> + x<sub>4</sub> + x    =>   1,4,7,8</li>
+            </p>
+            <button type="button" class="btn btn-outline-primary" onclick="Solvpolinomios()">Calcular</button>
+            <p></p>
+            <div id="ResultadoFactPol">
+
+            </div>
+        </div>
+
+        <div class="varglobal" id="RMcdGF2">
+            <p>
+                <li>El polinomio a ingresar tiene que estar en el siguiente formato </li>
+                <li>Solo se pondran el grado de cada termino que tenga coeficiente 1</li>
+
+                <li>x<sub>3</sub> + x + 1    =>   0,1,3</li>
+                <li>x<sub>8</sub> + +x<sub>7</sub> + x<sub>4</sub> + x    =>   1,4,7,8</li>
+            </p>
+            <button type="button" class="btn btn-outline-primary" onclick="SolvMCD()">Calcular</button>
+            <p></p>
+            <div id="ResMCDFactPol">
+            </div>
+
+        <div class="varglobal" id="RCodeGF2">
+            <p>
+                <li>El polinomio a ingresar tiene que estar en el siguiente formato </li>
+                <li>Solo se pondran el grado de cada termino que tenga coeficiente 1</li>
+
+                <li>x<sub>3</sub> + x + 1    =>   0,1,3</li>
+                <li>x<sub>8</sub> + +x<sub>7</sub> + x<sub>4</sub> + x    =>   1,4,7,8</li>
+            </p>
+            <button type="button" class="btn btn-outline-primary" onclick="SolvCiclico()">Calcular</button>
+            <p></p>
+            <div id="ResCodeFactPol">
+
+        </div>
+
+
+        
+
+    </div>>
+    
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="scriptPol.js"></script>
+    <script type="text/javascript" src="scriptsP.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+
+</body>
+</html>
